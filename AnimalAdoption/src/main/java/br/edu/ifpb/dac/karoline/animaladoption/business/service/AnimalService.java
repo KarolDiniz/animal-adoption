@@ -30,18 +30,13 @@ public class AnimalService {
             existingAnimal.setName(updatedAnimal.getName());
             existingAnimal.setSpecies(updatedAnimal.getSpecies());
             existingAnimal.setDescription(updatedAnimal.getDescription());
-            existingAnimal.setOwner(updatedAnimal.getOwner()); // Definir o novo proprietário
+            existingAnimal.setOwner(updatedAnimal.getOwner());
 
             return animalRepository.save(existingAnimal);
         } else {
-            return null; // Retornar null se o animal não existir
+            return null;
         }
     }
-
-//
-//    public List<Animal> findAnimalsByName(String name) {
-//        return animalRepository.findByNameIgnoreCaseContaining(name);
-//    }
     public void deleteAnimal(Long animalId) {
         animalRepository.deleteById(animalId);
     }

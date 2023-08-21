@@ -31,7 +31,7 @@ public class CommandLineView implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        int userTypeChoice = scannerView.getUserChoice("\n -=-=- Welcome to the \u001B[35mAnimal Adoption System\u001B[0m!-=-=-\n--------------------------------------------------\nAre you a user or an admin?", new String[]{"User", "Admin"});
+        int userTypeChoice = scannerView.getChoice("\n -=-=- Welcome to the \u001B[35mAnimal Adoption System\u001B[0m!-=-=-\n--------------------------------------------------\nAre you a user or an admin?", new String[]{"User", "Admin"});
 
         if (userTypeChoice == 1) {
             handleUser();
@@ -41,7 +41,7 @@ public class CommandLineView implements CommandLineRunner {
     }
 
     private void handleUser() {
-        String username = scannerView.getUserInput("\nEnter your username: ");
+        String username = scannerView.Input("\nEnter your username: ");
         User user = null;
 
         try {
@@ -49,7 +49,7 @@ public class CommandLineView implements CommandLineRunner {
         } catch (IllegalArgumentException e) {
             printView.print("\u001B[31mUser not found.\u001B[0m");
 
-            String createUserChoice = scannerView.getUserInput("\n\u001B[33mDo you want to create a new user? (S/N): \u001B[0m ").toUpperCase();
+            String createUserChoice = scannerView.Input("\n\u001B[33mDo you want to create a new user? (S/N): \u001B[0m ").toUpperCase();
 
             if (createUserChoice.equals("S")) {
                 user = new User();
@@ -65,7 +65,7 @@ public class CommandLineView implements CommandLineRunner {
         boolean exitMenu = false;
         while (!exitMenu) {
             String[] userOptions = {"View animals", "Adopt an animal", "View my animals", "Exit\n"};
-            int userMenuChoice = scannerView.getUserChoice("\u001B[36m -=-=-[ Menu ]-=-=- \u001B[0m\n", userOptions);
+            int userMenuChoice = scannerView.getChoice("\u001B[36m -=-=-[ Menu ]-=-=- \u001B[0m\n", userOptions);
 
             switch (userMenuChoice) {
                 case 1:
@@ -89,13 +89,13 @@ public class CommandLineView implements CommandLineRunner {
     }
 
     private void handleAdmin() {
-        String adminToken = scannerView.getUserInput("Enter the admin token: ");
+        String adminToken = scannerView.Input("Enter the admin token: ");
 
         if ("roleadmin".equals(adminToken)) {
             int adminMenuChoice;
             do {
                 String[] adminOptions = {"Create animal", "Update animal", "View all animals", "Delete animal", "View all users", "Delete user", "Exit"};
-                adminMenuChoice = scannerView.getUserChoice(" -=-=-[ Menu ]-=-=- ", adminOptions);
+                adminMenuChoice = scannerView.getChoice(" -=-=-[ Menu ]-=-=- ", adminOptions);
 
                 switch (adminMenuChoice) {
                     case 1:
@@ -153,30 +153,29 @@ public class CommandLineView implements CommandLineRunner {
     }
 
     private void deleteUser() {
-        Long userId = scannerView.getUserInputLong("Enter the ID of the user you want to delete: ");
+        Long userId = scannerView.getInputLong("Enter the ID of the user you want to delete: ");
         userController.deleteUser(userId);
         printView.print("User deleted successfully.");
     }
 
     private void createAnimal() {
         Animal animal = new Animal();
-
-        animal.setName(scannerView.getUserInput("Enter animal name: "));
-        animal.setSpecies(scannerView.getUserInput("Enter animal species: "));
-        animal.setDescription(scannerView.getUserInput("Enter animal description: "));
+        animal.setName(scannerView.Input("Enter animal name: "));
+        animal.setSpecies(scannerView.Input("Enter animal species: "));
+        animal.setDescription(scannerView.Input("Enter animal description: "));
 
         animalController.createAnimal(animal);
         printView.print("Animal created successfully. ");
     }
 
     private void updateAnimal() {
-        Long animalId = scannerView.getUserInputLong("Enter the ID of the animal you want to update: ");
+        Long animalId = scannerView.getInputLong("Enter the ID of the animal you want to update: ");
         Animal animal = animalController.getAnimalById(animalId);
 
         if (animal != null) {
-            animal.setName(scannerView.getUserInput("Enter new animal name: "));
-            animal.setSpecies(scannerView.getUserInput("Enter new animal species: "));
-            animal.setDescription(scannerView.getUserInput("Enter new animal description: "));
+            animal.setName(scannerView.Input("Enter new animal name: "));
+            animal.setSpecies(scannerView.Input("Enter new animal species: "));
+            animal.setDescription(scannerView.Input("Enter new animal description: "));
 
             animalController.updateAnimal(animalId, animal);
             printView.print("Animal updated successfully.");
@@ -191,14 +190,13 @@ public class CommandLineView implements CommandLineRunner {
         }
 
         private void deleteAnimal () {
-            Long animalId = scannerView.getUserInputLong("Enter the ID of the animal you want to delete: ");
+            Long animalId = scannerView.getInputLong("Enter the ID of the animal you want to delete: ");
             animalController.deleteAnimal(animalId);
             printView.print("\u001B[32mAnimal deleted successfully.\u001B[0m");
         }
 
         private void displayAnimals () {
             List<Animal> animals = animalController.getAllAnimals();
-
             if (animals.isEmpty()) {
                 printView.print("\u001B[31mNo animals available for adoption.\u001B[0m");
             } else {
@@ -211,8 +209,7 @@ public class CommandLineView implements CommandLineRunner {
 
         private void adoptAnimal (User user) {
             displayAnimals();
-
-            Long animalId = scannerView.getUserInputLong("Enter the ID of the animal you want to adopt: ");
+            Long animalId = scannerView.getInputLong("Enter the ID of the animal you want to adopt: ");
             Animal animal = animalController.getAnimalById(animalId);
 
             if (animal != null && animal.getOwner() == null) {

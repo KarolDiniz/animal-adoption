@@ -1,6 +1,5 @@
 package br.edu.ifpb.dac.karoline.animaladoption.presentation.utilities;
 
-import br.edu.ifpb.dac.karoline.animaladoption.presentation.utilities.PrintView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,26 +18,22 @@ public class ScannerView {
         this.printView = printView;
     }
 
-    public String Scanner(){
-        return scanner.nextLine();
-    }
-
-    public int getUserChoice (String prompt, String[]options){
+    public int getChoice(String prompt, String[]options){
         printView.print(prompt);
         printView.printMenu(options);
-        return getUserInputInt("Enter your choice: ");
+        return getInputInt("Enter your choice: ");
     }
 
-    public int getUserInputInt (String prompt){
+    public int getInputInt(String prompt){
         printView.print(prompt);
         return scanner.nextInt();
     }
-    public long getUserInputLong(String prompt) {
+    public long getInputLong(String prompt) {
         printView.print(prompt);
         return scanner.nextLong();
     }
 
-    public String getUserInput (String prompt){
+    public String Input(String prompt){
         printView.print(prompt);
         return scanner.next();
     }

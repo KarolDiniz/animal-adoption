@@ -33,7 +33,7 @@ public class UserService {
 
             return userRepository.save(existingUser);
         } else {
-            return null; // Retornar null se o usuário não existir
+            return null;
         }
     }
 
