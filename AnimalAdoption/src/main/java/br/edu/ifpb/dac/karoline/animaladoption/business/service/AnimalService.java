@@ -1,43 +1,18 @@
 package br.edu.ifpb.dac.karoline.animaladoption.business.service;
 
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
-import br.edu.ifpb.dac.karoline.animaladoption.model.repository.AnimalRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class AnimalService {
-    @Autowired
-    private AnimalRepository animalRepository;
+public interface AnimalService {
 
-    public Animal createAnimal(Animal animal) {
-        return animalRepository.save(animal);
-    }
+    public Animal createAnimal(Animal animal);
 
-    public List<Animal> getAllAnimals() {
-        return animalRepository.findAll();
-    }
+    public List<Animal> getAllAnimals();
 
-    public Animal getAnimalById(Long id) {
-        return animalRepository.findById(id).orElse(null);
-    }
+    public Animal getAnimalById(Long id);
 
-    public Animal updateAnimal(Long id, Animal updatedAnimal) {
-        Animal existingAnimal = animalRepository.findById(id).orElse(null);
-        if (existingAnimal != null) {
-            existingAnimal.setName(updatedAnimal.getName());
-            existingAnimal.setSpecies(updatedAnimal.getSpecies());
-            existingAnimal.setDescription(updatedAnimal.getDescription());
-            existingAnimal.setOwner(updatedAnimal.getOwner());
+    public Animal updateAnimal(Long id, Animal updatedAnimal);
+    public void deleteAnimal(Long animalId);
 
-            return animalRepository.save(existingAnimal);
-        } else {
-            return null;
-        }
-    }
-    public void deleteAnimal(Long animalId) {
-        animalRepository.deleteById(animalId);
-    }
 }

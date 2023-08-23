@@ -1,7 +1,8 @@
-package br.edu.ifpb.dac.karoline.animaladoption.business.controller;
+package br.edu.ifpb.dac.karoline.animaladoption.presentation.controller;
 
-import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.AnimalService;
+import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
+import br.edu.ifpb.dac.karoline.animaladoption.business.service.impl.AnimalServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

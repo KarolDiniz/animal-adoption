@@ -1,7 +1,7 @@
 package br.edu.ifpb.dac.karoline.animaladoption.presentation;
 
-import br.edu.ifpb.dac.karoline.animaladoption.business.controller.AnimalController;
-import br.edu.ifpb.dac.karoline.animaladoption.business.controller.UserController;
+import br.edu.ifpb.dac.karoline.animaladoption.presentation.controller.AnimalController;
+import br.edu.ifpb.dac.karoline.animaladoption.presentation.controller.UserController;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.User;
 import br.edu.ifpb.dac.karoline.animaladoption.presentation.utilities.PrintView;

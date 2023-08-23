@@ -1,12 +1,12 @@
-package br.edu.ifpb.dac.karoline.animaladoption.business.controller;
+package br.edu.ifpb.dac.karoline.animaladoption.presentation.controller;
 
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.UserService;
+import br.edu.ifpb.dac.karoline.animaladoption.business.service.impl.UserServiceImpl;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.util.Collection;
 import java.util.List;
 
 @Controller
