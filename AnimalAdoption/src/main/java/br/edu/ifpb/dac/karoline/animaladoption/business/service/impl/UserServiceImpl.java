@@ -2,6 +2,7 @@ package br.edu.ifpb.dac.karoline.animaladoption.business.service.impl;
 
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.UserDTO;
+import br.edu.ifpb.dac.karoline.animaladoption.business.exception.UserHasAnimalsException;
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.DTOConverterService;
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.UserService;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
@@ -83,9 +84,15 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
     public void deleteUser(Long userId) {
-        //TODO Deve verificar se um animal está associado a um user ou viceversa, dai ele deve retornar um exception
-        userRepository.deleteById(userId);
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user != null) {
+            if (!user.getAnimals().isEmpty()) {
+                throw new UserHasAnimalsException("The user is associated with one or more animals and cannot be deleted.");
+            }
+
+            userRepository.deleteById(userId);
+        }
     }
 }
