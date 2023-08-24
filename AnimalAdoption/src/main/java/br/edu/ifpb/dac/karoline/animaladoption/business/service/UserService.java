@@ -1,5 +1,7 @@
 package br.edu.ifpb.dac.karoline.animaladoption.business.service;
 
+import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
+import br.edu.ifpb.dac.karoline.animaladoption.business.dto.UserDTO;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.User;
 
@@ -9,14 +11,15 @@ import java.util.List;
 public interface UserService {
 
 
-    public User createUser(User user);
+    public UserDTO getUserById(Long userId);
+    public UserDTO createUser(UserDTO user);
 
-    public List<User> getAllUsers();
+    public List<UserDTO> getAllUsers();
     public User findByUsername(String username);
 
-    public User updateUser(Long id, User user);
+    public UserDTO updateUser(Long id, UserDTO user);
 
-    public List<Animal> getAnimalsByUserId(Long userId);
+    public List<AnimalDTO> getAnimalsByUserId(Long userId);
 
     public void deleteUser(Long userId);
 

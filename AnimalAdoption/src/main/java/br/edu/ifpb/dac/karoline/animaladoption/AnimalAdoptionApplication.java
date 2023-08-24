@@ -8,7 +8,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class AnimalAdoptionApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(AnimalAdoptionApplication.class, args);
-		context.close();
+		SpringApplication.run(AnimalAdoptionApplication.class, args);
 	}
 }

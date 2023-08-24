@@ -1,5 +1,8 @@
 package br.edu.ifpb.dac.karoline.animaladoption.business.service.impl;
 
+import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
+import br.edu.ifpb.dac.karoline.animaladoption.business.dto.UserDTO;
+import br.edu.ifpb.dac.karoline.animaladoption.business.service.DTOConverterService;
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.UserService;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.model.entities.User;
@@ -9,45 +12,80 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DTOConverterService dtoConverter;
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    @Override
+    public UserDTO createUser(UserDTO userDto) {
+        User user = dtoConverter.convertToUser(userDto);
+        user = userRepository.save(user);
+        UserDTO createdUserDto = dtoConverter.convertToUserDTO(user);
+        return createdUserDto;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-    }
-
-    public User updateUser(Long id, User user) {
-        User existingUser = userRepository.findById(id).orElse(null);
-        if (existingUser != null) {
-            existingUser.setUsername(user.getUsername());
-
-            return userRepository.save(existingUser);
+    @Override
+    public UserDTO getUserById(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            return dtoConverter.convertToUserDTO(user);
         } else {
             return null;
         }
     }
 
-    public List<Animal> getAnimalsByUserId(Long userId) {
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                .map(dtoConverter::convertToUserDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public UserDTO updateUser(Long id, UserDTO userDto) {
+        User existingUser = userRepository.findById(id).orElse(null);
+
+        if (existingUser != null) {
+            existingUser.setUsername(userDto.getUsername());
+            existingUser.setAdmin(userDto.isAdmin());
+
+            User updatedUser = userRepository.save(existingUser);
+
+            return dtoConverter.convertToUserDTO(updatedUser);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<AnimalDTO> getAnimalsByUserId(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
-            return user.getAnimals();
+            List<Animal> animals = user.getAnimals();
+
+            return animals.stream()
+                    .map(dtoConverter::convertToAnimalDTO)
+                    .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
         }
     }
 
+    @Override
     public void deleteUser(Long userId) {
+        //TODO Deve verificar se um animal está associado a um user ou viceversa, dai ele deve retornar um exception
         userRepository.deleteById(userId);
     }
 }
