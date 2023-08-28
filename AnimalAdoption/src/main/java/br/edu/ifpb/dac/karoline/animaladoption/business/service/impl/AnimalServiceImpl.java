@@ -6,6 +6,7 @@ import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.model.repository.AnimalRepository;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,7 +61,14 @@ public class AnimalServiceImpl implements AnimalService {
         }
     }
     public boolean deleteAnimal(Long animalId) {
-        animalRepository.deleteById(animalId);
-        return false;
+        try {
+            animalRepository.deleteById(animalId);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete animal with ID " + animalId, e);
+        }
     }
+
 }

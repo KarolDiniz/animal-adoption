@@ -22,10 +22,13 @@ public class AnimalController {
     private AnimalService animalService;
 
     @PostMapping
-    public ResponseEntity<AnimalDTO> createAnimal(@RequestBody AnimalDTO animalDTO) {
+    public ResponseEntity<String> createAnimal(@RequestBody AnimalDTO animalDTO) {
         AnimalDTO createdAnimalDTO = animalService.createAnimal(animalDTO);
-        return new ResponseEntity<>(createdAnimalDTO, HttpStatus.CREATED);
+
+        String successMessage = "Animal " + createdAnimalDTO.getName() + " has been successfully bred..";
+        return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
     }
+
 
     @GetMapping
     public ResponseEntity<List<AnimalDTO>> getAllAnimals() {
@@ -54,14 +57,16 @@ public class AnimalController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAnimal(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAnimal(@PathVariable Long id) {
         boolean deleted = animalService.deleteAnimal(id);
         if (deleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            String successMessage = "Animal deleted successfully.";
+            return new ResponseEntity<>(successMessage, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Animal not found.", HttpStatus.NOT_FOUND);
         }
     }
+
 
 
 }

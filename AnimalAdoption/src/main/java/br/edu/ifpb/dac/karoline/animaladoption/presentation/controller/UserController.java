@@ -2,8 +2,6 @@ package br.edu.ifpb.dac.karoline.animaladoption.presentation.controller;
 
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.DTOConverterService;
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.UserService;
-import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
-import br.edu.ifpb.dac.karoline.animaladoption.model.entities.User;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -60,10 +57,17 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        boolean deleted = userService.deleteUser(id);
+
+        if (deleted) {
+            String successMessage = "User deleted successfully.";
+            return new ResponseEntity<>(successMessage, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found.", HttpStatus.NOT_FOUND);
+        }
     }
+
 
     @GetMapping("/{id}/animals")
     public ResponseEntity<List<AnimalDTO>> getAnimalsByUserId(@PathVariable Long id) {
