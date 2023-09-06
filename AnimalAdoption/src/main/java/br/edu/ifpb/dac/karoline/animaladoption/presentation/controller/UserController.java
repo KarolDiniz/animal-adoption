@@ -1,6 +1,5 @@
 package br.edu.ifpb.dac.karoline.animaladoption.presentation.controller;
 
-import br.edu.ifpb.dac.karoline.animaladoption.business.service.DTOConverterService;
 import br.edu.ifpb.dac.karoline.animaladoption.business.service.UserService;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.UserDTO;
@@ -13,18 +12,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:3000") // URL do seu aplicativo React em desenvolvimento
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DTOConverterService dtoConverter;
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        UserDTO user = userService.getUserById(id);
-
+        UserDTO user = userService.getById(id);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {
@@ -34,7 +30,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDto) {
-        UserDTO createdUserDto = userService.createUser(userDto);
+        UserDTO createdUserDto = userService.create(userDto);
+        System.out.println("Valor de 'isAdmin' recebido: " + createdUserDto.isAdmin());
 
         if (createdUserDto != null) {
             return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
@@ -46,7 +43,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDto) {
-        UserDTO updatedUserDto = userService.updateUser(id, userDto);
+        UserDTO updatedUserDto = userService.update(id, userDto);
 
         if (updatedUserDto != null) {
             return new ResponseEntity<>(updatedUserDto, HttpStatus.OK);
@@ -58,7 +55,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        boolean deleted = userService.deleteUser(id);
+        boolean deleted = userService.delete(id);
 
         if (deleted) {
             String successMessage = "User deleted successfully.";
@@ -83,7 +80,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
+        List<UserDTO> users = userService.getAll();
 
         if (!users.isEmpty()) {
             return new ResponseEntity<>(users, HttpStatus.OK);

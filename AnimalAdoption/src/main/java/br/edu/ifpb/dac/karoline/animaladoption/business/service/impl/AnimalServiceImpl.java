@@ -20,14 +20,14 @@ public class AnimalServiceImpl implements AnimalService {
     @Autowired
     private DTOConverterService dtoConverter;
 
-    public AnimalDTO createAnimal(AnimalDTO animalDTO) {
+    public AnimalDTO create(AnimalDTO animalDTO) {
         Animal animal = dtoConverter.convertToAnimal(animalDTO);
         animal = animalRepository.save(animal);
         AnimalDTO createdAnimalDTO = dtoConverter.convertToAnimalDTO(animal);
         return createdAnimalDTO;
     }
 
-    public List<AnimalDTO> getAllAnimals() {
+    public List<AnimalDTO> getAll() {
         List<Animal> animals = animalRepository.findAll();
 
         return animals.stream()
@@ -35,7 +35,7 @@ public class AnimalServiceImpl implements AnimalService {
                 .collect(Collectors.toList());
     }
 
-    public AnimalDTO getAnimalById(Long id) {
+    public AnimalDTO getById(Long id) {
         Animal animal = animalRepository.findById(id).orElse(null);
         if (animal != null) {
             return dtoConverter.convertToAnimalDTO(animal);
@@ -45,7 +45,7 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public AnimalDTO updateAnimal(Long id, AnimalDTO updatedAnimal) {
+    public AnimalDTO update(Long id, AnimalDTO updatedAnimal) {
         Animal existingAnimal = animalRepository.findById(id).orElse(null);
 
         if (existingAnimal != null) {
@@ -60,7 +60,7 @@ public class AnimalServiceImpl implements AnimalService {
             return null;
         }
     }
-    public boolean deleteAnimal(Long animalId) {
+    public boolean delete(Long animalId) {
         try {
             animalRepository.deleteById(animalId);
             return true;

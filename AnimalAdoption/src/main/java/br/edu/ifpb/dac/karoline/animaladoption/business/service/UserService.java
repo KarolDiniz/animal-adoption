@@ -2,23 +2,21 @@ package br.edu.ifpb.dac.karoline.animaladoption.business.service;
 
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.UserDTO;
-import br.edu.ifpb.dac.karoline.animaladoption.model.entities.User;
 
 import java.util.List;
 
 public interface UserService {
 
 
-    public UserDTO getUserById(Long userId);
-    public UserDTO createUser(UserDTO user);
+    public UserDTO getById(Long userId);
+    public UserDTO create(UserDTO user);
 
-    public List<UserDTO> getAllUsers();
-    public User findByUsername(String username);
+    public List<UserDTO> getAll();
 
-    public UserDTO updateUser(Long id, UserDTO user);
+    public UserDTO update(Long id, UserDTO user);
 
     public List<AnimalDTO> getAnimalsByUserId(Long userId);
 
-    public boolean deleteUser(Long userId);
+    public boolean delete(Long userId);
 
 }

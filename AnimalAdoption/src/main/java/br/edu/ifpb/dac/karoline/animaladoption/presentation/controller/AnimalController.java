@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/animals")
+@CrossOrigin(origins = "http://localhost:3000") // URL do seu aplicativo React em desenvolvimento
 public class AnimalController {
 
     @Autowired
@@ -23,8 +24,8 @@ public class AnimalController {
 
     @PostMapping
     public ResponseEntity<String> createAnimal(@RequestBody AnimalDTO animalDTO) {
-        AnimalDTO createdAnimalDTO = animalService.createAnimal(animalDTO);
-
+        AnimalDTO createdAnimalDTO = animalService.create(animalDTO);
+        System.out.println("Animal " + createdAnimalDTO.getName());
         String successMessage = "Animal " + createdAnimalDTO.getName() + " has been successfully bred..";
         return new ResponseEntity<>(successMessage, HttpStatus.CREATED);
     }
@@ -32,12 +33,12 @@ public class AnimalController {
 
     @GetMapping
     public ResponseEntity<List<AnimalDTO>> getAllAnimals() {
-        List<AnimalDTO> animals = animalService.getAllAnimals();
+        List<AnimalDTO> animals = animalService.getAll();
         return new ResponseEntity<>(animals, HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<AnimalDTO> getAnimalById(@PathVariable Long id) {
-        AnimalDTO animalDTO = animalService.getAnimalById(id);
+        AnimalDTO animalDTO = animalService.getById(id);
         if (animalDTO != null) {
             return new ResponseEntity<>(animalDTO, HttpStatus.OK);
         } else {
@@ -47,7 +48,7 @@ public class AnimalController {
 
     @PutMapping("/{id}")
     public ResponseEntity<AnimalDTO> updateAnimal(@PathVariable Long id, @RequestBody AnimalDTO animalDTO) {
-        AnimalDTO updatedAnimalDTO = animalService.updateAnimal(id, animalDTO);
+        AnimalDTO updatedAnimalDTO = animalService.update(id, animalDTO);
 
         if (updatedAnimalDTO != null) {
             return new ResponseEntity<>(updatedAnimalDTO, HttpStatus.OK);
@@ -58,7 +59,7 @@ public class AnimalController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAnimal(@PathVariable Long id) {
-        boolean deleted = animalService.deleteAnimal(id);
+        boolean deleted = animalService.delete(id);
         if (deleted) {
             String successMessage = "Animal deleted successfully.";
             return new ResponseEntity<>(successMessage, HttpStatus.OK);
@@ -66,7 +67,4 @@ public class AnimalController {
             return new ResponseEntity<>("Animal not found.", HttpStatus.NOT_FOUND);
         }
     }
-
-
-
 }

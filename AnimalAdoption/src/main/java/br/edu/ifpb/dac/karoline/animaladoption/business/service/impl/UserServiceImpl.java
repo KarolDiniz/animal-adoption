@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private DTOConverterService dtoConverter;
 
     @Override
-    public UserDTO createUser(UserDTO userDto) {
+    public UserDTO create(UserDTO userDto) {
         User user = dtoConverter.convertToUser(userDto);
         user = userRepository.save(user);
         UserDTO createdUserDto = dtoConverter.convertToUserDTO(user);
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Long userId) {
+    public UserDTO getById(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
             return dtoConverter.convertToUserDTO(user);
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
 
         return users.stream()
@@ -51,12 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return null;
-    }
-
-    @Override
-    public UserDTO updateUser(Long id, UserDTO userDto) {
+    public UserDTO update(Long id, UserDTO userDto) {
         User existingUser = userRepository.findById(id).orElse(null);
 
         if (existingUser != null) {
@@ -85,7 +80,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public boolean deleteUser(Long userId) {
+    public boolean delete(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {

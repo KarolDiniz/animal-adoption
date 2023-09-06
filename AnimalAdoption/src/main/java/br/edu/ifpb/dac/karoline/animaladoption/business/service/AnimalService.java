@@ -1,19 +1,18 @@
 package br.edu.ifpb.dac.karoline.animaladoption.business.service;
 
-import br.edu.ifpb.dac.karoline.animaladoption.model.entities.Animal;
 import br.edu.ifpb.dac.karoline.animaladoption.business.dto.AnimalDTO;
 
 import java.util.List;
 
 public interface AnimalService {
 
-    public AnimalDTO createAnimal(AnimalDTO animal);
+    public AnimalDTO create(AnimalDTO animal);
 
-    public List<AnimalDTO> getAllAnimals();
+    public List<AnimalDTO> getAll();
 
-    public AnimalDTO getAnimalById(Long id);
+    public AnimalDTO getById(Long id);
 
-    public AnimalDTO updateAnimal(Long id, AnimalDTO updatedAnimal);
-    public boolean deleteAnimal(Long animalId);
+    public AnimalDTO update(Long id, AnimalDTO updatedAnimal);
+    public boolean delete(Long animalId);
 
 }
