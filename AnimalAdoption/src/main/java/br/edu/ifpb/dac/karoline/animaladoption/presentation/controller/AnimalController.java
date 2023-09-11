@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/animals")
-@CrossOrigin(origins = "http://localhost:3000") // URL do seu aplicativo React em desenvolvimento
+@CrossOrigin(origins = "http://localhost:3000")
 public class AnimalController {
 
     @Autowired
